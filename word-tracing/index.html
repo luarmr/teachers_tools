@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Word Tracing Practice - Teachers Tools</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&family=Quicksand:wght@400;600;700&family=Andika:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.cdnfonts.com/css/kg-primary-dots" rel="stylesheet">
+  <link href="https://fonts.cdnfonts.com/css/print-clearly" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="controls no-print">
+    <h1>Word Tracing Practice</h1>
+    <p class="subtitle">For kindergarten (ages 3–4). Enter words below, one per line or comma-separated. Each word gets its own printable page.</p>
+    <label class="trace-style-label">Font:</label>
+    <select id="font-choice">
+      <option value="Print Dashed">Print Dashed (dashed outline)</option>
+      <option value="Nunito">Nunito (rounded)</option>
+      <option value="Quicksand">Quicksand (rounded)</option>
+      <option value="Andika">Andika (clear, for literacy)</option>
+      <option value="KG Primary Dots">KG Primary Dots (dotted)</option>
+      <option value="KG Primary Dots Lined">KG Primary Dots Lined (dotted + lines)</option>
+    </select>
+    <textarea id="word-input" rows="5" placeholder="cat&#10;dog&#10;mom"></textarea>
+    <div class="buttons">
+      <button id="print-btn">Print</button>
+    </div>
+  </div>
+
+  <div id="output"></div>
+
+  <script>
+    const DAYS = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
+    const STORAGE_KEY = 'word-tracing-state';
+
+    function parseWords(input) {
+      return input
+        .split(/[\n,]+/)
+        .map(w => w.trim())
+        .filter(w => w.length > 0);
+    }
+
+    function escapeHtml(text) {
+      const div = document.createElement('div');
+      div.textContent = text;
+      return div.innerHTML;
+    }
+
+    function generatePage(word) {
+      const fontFamily = document.getElementById('font-choice').value;
+      const traceable = `<span class="trace-word" style="font-family:'${escapeHtml(fontFamily)}', sans-serif">${escapeHtml(word)}</span>`;
+      const rows = DAYS.map(day => `
+        <tr>
+          <td class="day-cell">${escapeHtml(day)}</td>
+          <td class="trace-cell">${traceable}</td>
+        </tr>
+      `).join('');
+
+      return `
+        <div class="practice-page">
+          <h2 class="word-header">${escapeHtml(word)}</h2>
+          <table class="practice-table">
+            <tbody>
+              ${rows}
+            </tbody>
+          </table>
+          <p class="week-of">Week of _______________</p>
+        </div>
+      `;
+    }
+
+    function update() {
+      const input = document.getElementById('word-input').value;
+      const words = parseWords(input);
+      const output = document.getElementById('output');
+
+      if (words.length === 0) {
+        output.innerHTML = '<p class="no-words">Enter at least one word.</p>';
+        return;
+      }
+
+      output.innerHTML = words.map(generatePage).join('');
+      saveState();
+    }
+
+    function saveState() {
+      try {
+        const state = {
+          words: document.getElementById('word-input').value,
+          font: document.getElementById('font-choice').value
+        };
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+      } catch (e) {}
+    }
+
+    function loadState() {
+      try {
+        const saved = localStorage.getItem(STORAGE_KEY);
+        if (saved) {
+          const state = JSON.parse(saved);
+          document.getElementById('word-input').value = state.words || '';
+          if (state.font) {
+            document.getElementById('font-choice').value = state.font;
+          }
+        }
+      } catch (e) {}
+    }
+
+    loadState();
+
+    document.getElementById('word-input').addEventListener('input', update);
+    document.getElementById('word-input').addEventListener('change', update);
+    document.getElementById('font-choice').addEventListener('change', update);
+
+    update();
+
+    document.getElementById('print-btn').addEventListener('click', () => {
+      window.print();
+    });
+  </script>
+</body>
+</html>

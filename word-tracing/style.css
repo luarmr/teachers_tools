@@ -1,0 +1,206 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Nunito', sans-serif;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 2rem;
+  color: #333;
+}
+
+.controls {
+  margin-bottom: 2rem;
+}
+
+.controls h1 {
+  font-size: 1.75rem;
+  font-weight: 700;
+  margin: 0 0 0.5rem 0;
+}
+
+.subtitle {
+  font-size: 0.95rem;
+  color: #555;
+  margin: 0 0 1rem 0;
+}
+
+.trace-style-label {
+  display: block;
+  font-size: 0.9rem;
+  font-weight: 600;
+  margin-bottom: 0.25rem;
+}
+
+#font-choice {
+  padding: 0.4rem 0.75rem;
+  font-family: inherit;
+  font-size: 0.95rem;
+  border: 2px solid #ddd;
+  border-radius: 6px;
+  margin-bottom: 1rem;
+  background: white;
+  display: block;
+  width: 100%;
+  max-width: 320px;
+}
+
+#word-input {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  font-family: inherit;
+  font-size: 1rem;
+  border: 2px solid #ddd;
+  border-radius: 8px;
+  resize: vertical;
+  margin-bottom: 1rem;
+}
+
+#word-input:focus {
+  outline: none;
+  border-color: #6b9bd1;
+}
+
+.buttons {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.buttons button {
+  padding: 0.6rem 1.25rem;
+  font-family: inherit;
+  font-size: 1rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+#print-btn {
+  background: #e8e8e8;
+  color: #333;
+}
+
+#print-btn:hover {
+  background: #ddd;
+}
+
+.no-words {
+  color: #888;
+  font-style: italic;
+}
+
+.practice-page {
+  margin-bottom: 2rem;
+  padding: 1.5rem;
+  background: white;
+  border: 1px solid #eee;
+  border-radius: 8px;
+  max-width: 100%;
+}
+
+.word-header {
+  font-family: 'Nunito', sans-serif;
+  font-size: 3.5rem;
+  font-weight: 700;
+  text-align: center;
+  margin: 0 0 1.5rem 0;
+  letter-spacing: 0.05em;
+}
+
+.practice-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 1.25rem;
+}
+
+.practice-table td {
+  border: 1px solid #ccc;
+  padding: 0.75rem 2rem;
+  text-align: left;
+}
+
+.day-cell {
+  font-family: 'Nunito', sans-serif;
+  font-weight: 700;
+  font-size: 1.6rem;
+  width: 160px;
+}
+
+.week-of {
+  font-family: 'Nunito', sans-serif;
+  font-size: 1rem;
+  margin: 1.5rem 0 0 0;
+  color: #333;
+}
+
+.trace-cell {
+  vertical-align: middle;
+}
+
+.trace-word {
+  font-size: 2.75rem;
+  font-weight: 400;
+  color: #333;
+  letter-spacing: 0.12em;
+  display: inline-block;
+}
+
+/* Print styles - fit horizontally on page */
+@page {
+  size: A4 landscape;
+  margin: 12mm;
+}
+
+.practice-page,
+.trace-cell,
+.trace-word {
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+
+@media print {
+  .no-print {
+    display: none !important;
+  }
+
+  body {
+    padding: 0;
+    max-width: none;
+  }
+
+  .practice-page {
+    margin: 0;
+    padding: 1rem 0 0 0;
+    border: none;
+    border-radius: 0;
+    page-break-after: always;
+  }
+
+  .practice-page:last-child {
+    page-break-after: auto;
+  }
+
+  .word-header {
+    font-size: 4rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .practice-table td {
+    padding: 1rem 2.5rem;
+  }
+
+  .day-cell {
+    font-size: 2rem;
+  }
+
+  .trace-word {
+    font-size: 3rem;
+  }
+
+  .week-of {
+    font-size: 1.1rem;
+    margin-top: 1.5rem;
+  }
+}
