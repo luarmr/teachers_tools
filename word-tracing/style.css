@@ -14,10 +14,107 @@ body {
   margin-bottom: 2rem;
 }
 
+.header-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
 .controls h1 {
   font-size: 1.75rem;
   font-weight: 700;
   margin: 0 0 0.5rem 0;
+}
+
+.header-row h1 {
+  margin: 0;
+}
+
+.header-row + .subtitle {
+  margin-top: 0.5rem;
+}
+
+.help-btn {
+  width: 1.75rem;
+  height: 1.75rem;
+  border-radius: 50%;
+  border: 2px solid #6b9bd1;
+  background: white;
+  color: #6b9bd1;
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1;
+  cursor: pointer;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+}
+
+.help-btn:hover {
+  background: #6b9bd1;
+  color: white;
+}
+
+.modal {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+}
+
+.modal[hidden] {
+  display: none;
+}
+
+.modal-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  cursor: pointer;
+}
+
+.modal-content {
+  position: relative;
+  background: white;
+  padding: 1.5rem;
+  border-radius: 8px;
+  max-width: 360px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+}
+
+.modal-content h2 {
+  font-size: 1.25rem;
+  margin: 0 0 1rem 0;
+}
+
+.modal-content ul {
+  margin: 0;
+  padding-left: 1.25rem;
+}
+
+.modal-content li {
+  margin-bottom: 0.5rem;
+}
+
+.modal-close {
+  margin-top: 1rem;
+  padding: 0.5rem 1rem;
+  font-family: inherit;
+  font-size: 0.95rem;
+  background: #6b9bd1;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.modal-close:hover {
+  background: #5a8ac0;
 }
 
 .subtitle {
@@ -148,6 +245,11 @@ body {
 }
 
 /* Print styles - fit horizontally on page */
+@page horizontal {
+  size: A4 landscape;
+  margin: 12mm;
+}
+
 @page {
   size: A4 landscape;
   margin: 12mm;
@@ -176,6 +278,7 @@ body {
     border: none;
     border-radius: 0;
     page-break-after: always;
+    page: horizontal;
   }
 
   .practice-page:last-child {

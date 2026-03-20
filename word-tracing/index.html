@@ -13,7 +13,10 @@
 </head>
 <body>
   <div class="controls no-print">
-    <h1>Word Tracing Practice</h1>
+    <div class="header-row">
+      <h1>Word Tracing Practice</h1>
+      <button type="button" id="help-btn" class="help-btn" title="Print help">?</button>
+    </div>
     <p class="subtitle">For kindergarten (ages 3–4). Enter words below, one per line or comma-separated. Each word gets its own printable page.</p>
     <label class="trace-style-label">Font:</label>
     <select id="font-choice">
@@ -27,6 +30,18 @@
     <textarea id="word-input" rows="5" placeholder="cat&#10;dog&#10;mom"></textarea>
     <div class="buttons">
       <button id="print-btn">Print</button>
+    </div>
+  </div>
+
+  <div id="help-modal" class="modal" hidden>
+    <div class="modal-backdrop"></div>
+    <div class="modal-content">
+      <h2>Print settings</h2>
+      <ul>
+        <li><strong>Orientation:</strong> Landscape</li>
+        <li><strong>Headers and footers:</strong> Turn off to hide the page address, URL, and date in the margin</li>
+      </ul>
+      <button type="button" class="modal-close">Close</button>
     </div>
   </div>
 
@@ -119,6 +134,17 @@
 
     document.getElementById('print-btn').addEventListener('click', () => {
       window.print();
+    });
+
+    const helpModal = document.getElementById('help-modal');
+    document.getElementById('help-btn').addEventListener('click', () => {
+      helpModal.hidden = false;
+    });
+    helpModal.querySelector('.modal-backdrop').addEventListener('click', () => {
+      helpModal.hidden = true;
+    });
+    helpModal.querySelector('.modal-close').addEventListener('click', () => {
+      helpModal.hidden = true;
     });
   </script>
 </body>
