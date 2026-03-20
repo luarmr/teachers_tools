@@ -130,6 +130,24 @@ body {
   margin-bottom: 0.25rem;
 }
 
+.config-block {
+  margin-bottom: 1rem;
+}
+
+.config-option {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.95rem;
+  cursor: pointer;
+}
+
+.config-option input {
+  width: 1.1rem;
+  height: 1.1rem;
+  cursor: pointer;
+}
+
 #font-choice {
   padding: 0.4rem 0.75rem;
   font-family: inherit;

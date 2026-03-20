@@ -27,6 +27,12 @@
       <option value="KG Primary Dots">KG Primary Dots (dotted)</option>
       <option value="KG Primary Dots Lined">KG Primary Dots Lined (dotted + lines)</option>
     </select>
+    <div class="config-block">
+      <label class="config-option">
+        <input type="checkbox" id="show-days" checked>
+        Show days in table
+      </label>
+    </div>
     <textarea id="word-input" rows="5" placeholder="cat&#10;dog&#10;mom"></textarea>
     <div class="buttons">
       <button id="print-btn">Print</button>
@@ -66,13 +72,12 @@
 
     function generatePage(word) {
       const fontFamily = document.getElementById('font-choice').value;
+      const showDays = document.getElementById('show-days').checked;
       const traceable = `<span class="trace-word" style="font-family:'${escapeHtml(fontFamily)}', sans-serif">${escapeHtml(word)}</span>`;
-      const rows = DAYS.map(day => `
-        <tr>
-          <td class="day-cell">${escapeHtml(day)}</td>
-          <td class="trace-cell">${traceable}</td>
-        </tr>
-      `).join('');
+      const rows = DAYS.map(day => {
+        const dayCell = showDays ? `<td class="day-cell">${escapeHtml(day)}</td>` : '';
+        return `<tr>${dayCell}<td class="trace-cell">${traceable}</td></tr>`;
+      }).join('');
 
       return `
         <div class="practice-page">
@@ -105,7 +110,8 @@
       try {
         const state = {
           words: document.getElementById('word-input').value,
-          font: document.getElementById('font-choice').value
+          font: document.getElementById('font-choice').value,
+          showDays: document.getElementById('show-days').checked
         };
         localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
       } catch (e) {}
@@ -120,6 +126,9 @@
           if (state.font) {
             document.getElementById('font-choice').value = state.font;
           }
+          if (typeof state.showDays === 'boolean') {
+            document.getElementById('show-days').checked = state.showDays;
+          }
         }
       } catch (e) {}
     }
@@ -129,6 +138,7 @@
     document.getElementById('word-input').addEventListener('input', update);
     document.getElementById('word-input').addEventListener('change', update);
     document.getElementById('font-choice').addEventListener('change', update);
+    document.getElementById('show-days').addEventListener('change', update);
 
     update();
 
