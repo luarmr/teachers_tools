@@ -38,6 +38,10 @@
         <input type="checkbox" id="show-week-of" checked>
         Show "Week of" footer
       </label>
+      <label class="config-option">
+        <input type="checkbox" id="soft-grey">
+        Soft grey for tracing (readable but traceable)
+      </label>
     </div>
     <textarea id="word-input" rows="5" placeholder="cat&#10;dog&#10;mom"></textarea>
     <div class="buttons">
@@ -80,8 +84,10 @@
       const fontFamily = document.getElementById('font-choice').value;
       const showDays = document.getElementById('show-days').checked;
       const showWeekOf = document.getElementById('show-week-of').checked;
+      const softGrey = document.getElementById('soft-grey').checked;
       const fallback = (fontFamily === 'Dancing Script' || fontFamily === 'Cedarville Cursive') ? 'cursive' : 'sans-serif';
-      const traceable = `<span class="trace-word" style="font-family:'${escapeHtml(fontFamily)}', ${fallback}">${escapeHtml(word)}</span>`;
+      const color = softGrey ? 'color:#b5b5b5;' : '';
+      const traceable = `<span class="trace-word" style="font-family:'${escapeHtml(fontFamily)}', ${fallback}; ${color}">${escapeHtml(word)}</span>`;
       const rows = DAYS.map(day => {
         const dayCell = showDays ? `<td class="day-cell">${escapeHtml(day)}</td>` : '';
         return `<tr>${dayCell}<td class="trace-cell">${traceable}</td></tr>`;
@@ -121,7 +127,8 @@
           words: document.getElementById('word-input').value,
           font: document.getElementById('font-choice').value,
           showDays: document.getElementById('show-days').checked,
-          showWeekOf: document.getElementById('show-week-of').checked
+          showWeekOf: document.getElementById('show-week-of').checked,
+          softGrey: document.getElementById('soft-grey').checked
         };
         localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
       } catch (e) {}
@@ -142,6 +149,9 @@
           if (typeof state.showWeekOf === 'boolean') {
             document.getElementById('show-week-of').checked = state.showWeekOf;
           }
+          if (typeof state.softGrey === 'boolean') {
+            document.getElementById('soft-grey').checked = state.softGrey;
+          }
         }
       } catch (e) {}
     }
@@ -153,6 +163,7 @@
     document.getElementById('font-choice').addEventListener('change', update);
     document.getElementById('show-days').addEventListener('change', update);
     document.getElementById('show-week-of').addEventListener('change', update);
+    document.getElementById('soft-grey').addEventListener('change', update);
 
     update();
 
