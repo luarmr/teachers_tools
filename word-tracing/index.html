@@ -6,7 +6,7 @@
   <title>Word Tracing Practice - Teachers Tools</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&family=Quicksand:wght@400;600;700&family=Andika:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&family=Quicksand:wght@400;600;700&family=Andika:wght@400;700&family=Dancing+Script&family=Cedarville+Cursive&display=swap" rel="stylesheet">
   <link href="https://fonts.cdnfonts.com/css/kg-primary-dots" rel="stylesheet">
   <link href="https://fonts.cdnfonts.com/css/print-clearly" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
@@ -26,11 +26,17 @@
       <option value="Andika">Andika (clear, for literacy)</option>
       <option value="KG Primary Dots">KG Primary Dots (dotted)</option>
       <option value="KG Primary Dots Lined">KG Primary Dots Lined (dotted + lines)</option>
+      <option value="Dancing Script">Dancing Script (cursive)</option>
+      <option value="Cedarville Cursive">Cedarville Cursive (handwriting)</option>
     </select>
     <div class="config-block">
       <label class="config-option">
         <input type="checkbox" id="show-days" checked>
         Show days in table
+      </label>
+      <label class="config-option">
+        <input type="checkbox" id="show-week-of" checked>
+        Show "Week of" footer
       </label>
     </div>
     <textarea id="word-input" rows="5" placeholder="cat&#10;dog&#10;mom"></textarea>
@@ -73,12 +79,15 @@
     function generatePage(word) {
       const fontFamily = document.getElementById('font-choice').value;
       const showDays = document.getElementById('show-days').checked;
-      const traceable = `<span class="trace-word" style="font-family:'${escapeHtml(fontFamily)}', sans-serif">${escapeHtml(word)}</span>`;
+      const showWeekOf = document.getElementById('show-week-of').checked;
+      const fallback = (fontFamily === 'Dancing Script' || fontFamily === 'Cedarville Cursive') ? 'cursive' : 'sans-serif';
+      const traceable = `<span class="trace-word" style="font-family:'${escapeHtml(fontFamily)}', ${fallback}">${escapeHtml(word)}</span>`;
       const rows = DAYS.map(day => {
         const dayCell = showDays ? `<td class="day-cell">${escapeHtml(day)}</td>` : '';
         return `<tr>${dayCell}<td class="trace-cell">${traceable}</td></tr>`;
       }).join('');
 
+      const weekOfHtml = showWeekOf ? '<p class="week-of">Week of _______________</p>' : '';
       return `
         <div class="practice-page">
           <h2 class="word-header">${escapeHtml(word)}</h2>
@@ -87,7 +96,7 @@
               ${rows}
             </tbody>
           </table>
-          <p class="week-of">Week of _______________</p>
+          ${weekOfHtml}
         </div>
       `;
     }
@@ -111,7 +120,8 @@
         const state = {
           words: document.getElementById('word-input').value,
           font: document.getElementById('font-choice').value,
-          showDays: document.getElementById('show-days').checked
+          showDays: document.getElementById('show-days').checked,
+          showWeekOf: document.getElementById('show-week-of').checked
         };
         localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
       } catch (e) {}
@@ -129,6 +139,9 @@
           if (typeof state.showDays === 'boolean') {
             document.getElementById('show-days').checked = state.showDays;
           }
+          if (typeof state.showWeekOf === 'boolean') {
+            document.getElementById('show-week-of').checked = state.showWeekOf;
+          }
         }
       } catch (e) {}
     }
@@ -139,6 +152,7 @@
     document.getElementById('word-input').addEventListener('change', update);
     document.getElementById('font-choice').addEventListener('change', update);
     document.getElementById('show-days').addEventListener('change', update);
+    document.getElementById('show-week-of').addEventListener('change', update);
 
     update();
 
