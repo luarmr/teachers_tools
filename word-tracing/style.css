@@ -266,12 +266,12 @@ body {
 /* Print styles - fit horizontally on page */
 @page horizontal {
   size: A4 landscape;
-  margin: 12mm;
+  margin: 5mm 10mm;
 }
 
 @page {
   size: A4 landscape;
-  margin: 12mm;
+  margin: 5mm 10mm;
 }
 
 .practice-page,
@@ -308,9 +308,9 @@ body {
   }
 
   .word-header {
-    font-size: 5.5rem;
-    margin: 0 0 0.75rem 0;
-    line-height: 1.1;
+    font-size: 6.75rem;
+    margin: 0 0 0.4rem 0;
+    line-height: 1.05;
   }
 
   .practice-table {
@@ -318,21 +318,21 @@ body {
   }
 
   .practice-table td {
-    padding: 0.5rem 1.5rem;
-    line-height: 1.25;
+    padding: 0.22rem 1rem;
+    line-height: 1.1;
   }
 
   .day-cell {
-    font-size: 2.2rem;
+    font-size: 2.85rem;
   }
 
   .trace-word {
-    font-size: 4.5rem;
-    line-height: 1.2;
+    font-size: 6.5rem;
+    line-height: 1.05;
   }
 
   .week-of {
-    font-size: 1.25rem;
-    margin: 0.75rem 0 0 0;
+    font-size: 1.45rem;
+    margin: 0.4rem 0 0 0;
   }
 }
